@@ -1,3 +1,4 @@
+// 分模块接口请求函数（不与 redux 交互）
 import request from 'utils/request';
 
 export interface IProduct {

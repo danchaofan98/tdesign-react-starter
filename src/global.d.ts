@@ -46,6 +46,7 @@ declare module '*.less' {
 
 declare module 'tvision-color';
 
+// 声明一个全局接口，用于定义环境变量的类型
 declare interface ImportMeta {
   env: {
     MODE: 'development' | 'test' | 'release' | 'mock' | 'site';

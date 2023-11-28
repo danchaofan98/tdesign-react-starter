@@ -1,3 +1,4 @@
+// user reducer
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
@@ -9,7 +10,8 @@ const initialState = {
   userInfo: {},
 };
 
-// login
+// login 用于创建一个包含了异步逻辑的 action creator
+// Record<string, unknown> 是 TypeScript 中的一种类型声明。它表示一个对象，该对象的键（key）是字符串类型，值（value）可以是任何类型，即键是字符串，值可以是未知类型
 export const login = createAsyncThunk(`${namespace}/login`, async (userInfo: Record<string, unknown>) => {
   const mockLogin = async (userInfo: Record<string, unknown>) => {
     // 登录请求流程
@@ -45,7 +47,8 @@ export const login = createAsyncThunk(`${namespace}/login`, async (userInfo: Rec
   throw res;
 });
 
-// getUserInfo
+// getUserInfo 异步 action creator
+// 返回一个 Promise
 export const getUserInfo = createAsyncThunk(`${namespace}/getUserInfo`, async (_, { getState }: any) => {
   const { token } = getState();
   const mockRemoteUserInfo = async (token: string) => {
@@ -66,6 +69,7 @@ export const getUserInfo = createAsyncThunk(`${namespace}/getUserInfo`, async (_
   return res;
 });
 
+// 创建带有命名空间的 slice
 const userSlice = createSlice({
   name: namespace,
   initialState,
@@ -79,11 +83,12 @@ const userSlice = createSlice({
       state.token = '';
     },
   },
+  // 处理异步操作
   extraReducers: (builder) => {
     builder
+      // 根据 Promise 的状态来处理异步操作
       .addCase(login.fulfilled, (state, action) => {
         localStorage.setItem(TOKEN_NAME, action.payload);
-
         state.token = action.payload;
       })
       .addCase(getUserInfo.fulfilled, (state, action) => {
@@ -92,8 +97,11 @@ const userSlice = createSlice({
   },
 });
 
-export const selectListBase = (state: RootState) => state.listBase;
+// 定义一个 selector 函数，相当于 mapStateToProps
+export const selectUser = (state: RootState) => state.listBase;
 
+// 对外暴露动作对象；自动创建的 actions，无需手动书写
 export const { logout, remove } = userSlice.actions;
 
+// 默认对外暴露 reducer
 export default userSlice.reducer;

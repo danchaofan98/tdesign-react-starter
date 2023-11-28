@@ -1,3 +1,4 @@
+// App 的主要子组件，包含多种布局方式
 import React from 'react';
 import { Layout } from 'tdesign-react';
 import { ELayout } from 'modules/global';
@@ -41,6 +42,7 @@ const MixLayout = React.memo(() => (
   </Layout>
 ));
 
+// 登录页
 const FullPageLayout = React.memo(() => <Content />);
 
 export default {
