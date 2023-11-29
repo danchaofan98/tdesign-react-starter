@@ -1,15 +1,17 @@
 // App 的主要子组件，包含多种布局方式
 import React from 'react';
 import { Layout } from 'tdesign-react';
+import classnames from 'classnames';
+
 import { ELayout } from 'modules/global';
 import Header from './Header';
 import Footer from './Footer';
 import Menu from './Menu';
-import classnames from 'classnames';
-import Content from './AppRouter';
+import Content from './Content';
 
 import Style from './AppLayout.module.less';
 
+// 侧边栏导航布局
 const SideLayout = React.memo(() => (
   <Layout className={classnames(Style.sidePanel, 'narrow-scrollbar')}>
     <Menu showLogo showOperation />
@@ -21,6 +23,7 @@ const SideLayout = React.memo(() => (
   </Layout>
 ));
 
+// 顶部导航布局
 const TopLayout = React.memo(() => (
   <Layout className={Style.topPanel}>
     <Header showMenu />
@@ -29,6 +32,7 @@ const TopLayout = React.memo(() => (
   </Layout>
 ));
 
+// 混合布局
 const MixLayout = React.memo(() => (
   <Layout className={Style.mixPanel}>
     <Header />
@@ -42,7 +46,7 @@ const MixLayout = React.memo(() => (
   </Layout>
 ));
 
-// 登录页
+// 全屏布局（登录页）
 const FullPageLayout = React.memo(() => <Content />);
 
 export default {

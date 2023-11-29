@@ -1,3 +1,4 @@
+// 侧边导航菜单
 import React, { memo, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, MenuValue } from 'tdesign-react';
@@ -6,7 +7,7 @@ import { resolve } from 'utils/path';
 import { useAppSelector } from 'modules/store';
 import { selectGlobal } from 'modules/global';
 import MenuLogo from './MenuLogo';
-import Style from './Menu.module.less';
+import Style from './index.module.less';
 
 const { SubMenu, MenuItem, HeadMenu } = Menu;
 
@@ -15,6 +16,7 @@ interface IMenuProps {
   showOperation?: boolean;
 }
 
+// 渲染导航菜单列表
 const renderMenuItems = (menu: IRouter[], parentPath = '') => {
   const navigate = useNavigate();
   return menu.map((item) => {
@@ -67,13 +69,11 @@ const renderMenuItems = (menu: IRouter[], parentPath = '') => {
   });
 };
 
-/**
- * 顶部菜单
- */
+// 顶部菜单
 export const HeaderMenu = memo(() => {
   const globalState = useAppSelector(selectGlobal);
-  const location = useLocation();
-  const [active, setActive] = useState<MenuValue>(location.pathname); // todo
+  const { pathname } = useLocation();
+  const [active, setActive] = useState<MenuValue>(pathname); // todo
 
   return (
     <HeadMenu
@@ -88,11 +88,11 @@ export const HeaderMenu = memo(() => {
   );
 });
 
-/**
- * 左侧菜单
- */
+// 左侧导航菜单（默认暴露）
 export default memo((props: IMenuProps) => {
-  const location = useLocation();
+  const { pathname } = useLocation();
+  console.log('pathname', pathname); // /dashboard/base
+
   const globalState = useAppSelector(selectGlobal);
 
   const { version } = globalState;
@@ -102,12 +102,12 @@ export default memo((props: IMenuProps) => {
     <Menu
       width='232px'
       style={{ flexShrink: 0, height: '100%' }}
-      className={Style.menuPanel2}
-      value={location.pathname}
+      className={Style.menuPanel}
+      value={pathname}
       theme={globalState.theme}
       collapsed={globalState.collapsed}
-      operations={props.showOperation ? <div className={Style.menuTip}>{bottomText}</div> : undefined}
-      logo={props.showLogo ? <MenuLogo collapsed={globalState.collapsed} /> : undefined}
+      logo={props.showLogo ? <MenuLogo collapsed={globalState.collapsed} /> : undefined} // 左侧菜单顶部 Logo
+      operations={props.showOperation ? <div className={Style.menuTip}>{bottomText}</div> : undefined} // 左侧菜单下方版本号
     >
       {renderMenuItems(router)}
     </Menu>

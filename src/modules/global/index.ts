@@ -1,7 +1,8 @@
 // global reducer
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ETheme } from 'types/index.d';
 import { Color } from 'tvision-color';
+
+import { ETheme } from 'types/index.d';
 import { CHART_COLORS, defaultColor } from 'configs/color';
 import { generateColorMap, insertThemeStylesheet } from 'utils/color';
 import { RootState } from '../store';
@@ -22,7 +23,7 @@ export interface IGlobalState {
   loading: boolean;
   collapsed: boolean; // 是否折叠左侧导航栏
   setting: boolean; // 是否打开右侧设置抽屉
-  version: string;
+  version: string; // 版本号
   color: string; // 主题颜色
   theme: ETheme; // 主题：深色 浅色
   systemTheme: boolean; // 是否开启跟随系统主题
