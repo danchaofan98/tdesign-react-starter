@@ -1,5 +1,12 @@
+// 系统设置，右侧抽屉栏
 import React, { memo } from 'react';
 import { Row, Col, Switch } from 'tdesign-react';
+
+import RadioColor from './RadioColor';
+import RadioRect from './RadioRect';
+import Light from 'assets/svg/assets-setting-light.svg?component';
+import Dark from 'assets/svg/assets-setting-dark.svg?component';
+import System from 'assets/svg/assets-setting-auto.svg?component';
 import { useAppDispatch, useAppSelector } from 'modules/store';
 import {
   selectGlobal,
@@ -13,15 +20,10 @@ import {
   ELayout,
 } from 'modules/global';
 import { ETheme } from 'types/index.d';
-import RadioColor from './RadioColor';
-import RadioRect from './RadioRect';
-
-import Light from 'assets/svg/assets-setting-light.svg?component';
-import Dark from 'assets/svg/assets-setting-dark.svg?component';
-import System from 'assets/svg/assets-setting-auto.svg?component';
 
 import Style from './index.module.less';
 
+// 系统主题
 enum ESettingTheme {
   system,
 }
@@ -63,6 +65,7 @@ export default memo(() => {
   const dispatch = useAppDispatch();
   const globalState = useAppSelector(selectGlobal);
 
+  // 切换主题
   const handleThemeSwitch = (value: any) => {
     if (value === ESettingTheme.system) {
       dispatch(openSystemTheme());

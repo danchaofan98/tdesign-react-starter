@@ -1,4 +1,4 @@
-// 侧边导航菜单
+// Menu 导航菜单
 import React, { memo, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, MenuValue } from 'tdesign-react';
@@ -16,7 +16,7 @@ interface IMenuProps {
   showOperation?: boolean;
 }
 
-// 渲染导航菜单列表
+// NOTE 根据路由递归渲染导航菜单列表
 const renderMenuItems = (menu: IRouter[], parentPath = '') => {
   const navigate = useNavigate();
   return menu.map((item) => {
@@ -69,7 +69,7 @@ const renderMenuItems = (menu: IRouter[], parentPath = '') => {
   });
 };
 
-// 顶部菜单
+// 1.顶部导航菜单
 export const HeaderMenu = memo(() => {
   const globalState = useAppSelector(selectGlobal);
   const { pathname } = useLocation();
@@ -88,10 +88,10 @@ export const HeaderMenu = memo(() => {
   );
 });
 
-// 左侧导航菜单（默认暴露）
+// 2.左侧导航菜单（默认暴露）<Menu />
 export default memo((props: IMenuProps) => {
   const { pathname } = useLocation();
-  console.log('pathname', pathname); // /dashboard/base
+  // console.log('pathname', pathname); // /dashboard/base
 
   const globalState = useAppSelector(selectGlobal);
 
