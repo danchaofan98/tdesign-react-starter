@@ -13,7 +13,7 @@ if [ -n "$(git status --porcelain)" ]; then
   git commit -m "Quick commit - $(date '+%Y-%m-%d %H:%M:%S')"
 
   # 推送到远程仓库
-  git push origin master # 或者使用你当前分支的名称
+  git push origin develop # 或者使用你当前分支的名称
 else
   echo "没有未提交的修改."
 fi
