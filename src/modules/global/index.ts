@@ -8,8 +8,6 @@ import { generateColorMap, insertThemeStylesheet } from 'utils/color';
 import { RootState } from '../store';
 import { version } from '../../../package.json';
 
-const namespace = 'global';
-
 // 后面的值默认依次 +1
 export enum ELayout {
   side = 1,
@@ -37,7 +35,10 @@ export interface IGlobalState {
 
 const defaultTheme = ETheme.light;
 
-// 初始状态
+// 1. 命名空间
+const namespace = 'global';
+
+// 2. 初始状态
 const initialState: IGlobalState = {
   loading: true,
   collapsed: window.innerWidth < 1000, // 宽度小于1000 菜单闭合
@@ -54,13 +55,13 @@ const initialState: IGlobalState = {
   chartColors: CHART_COLORS[defaultTheme],
 };
 
-// 创建带有命名空间的 slice
-// 一个 slice 是指一个包含了一部分状态（state）、对应的 reducer 和 action creators(自动生成) 的逻辑单元
-// 例如 dispatch(toggleMenu(true)); 这里的 toggleMenu(true) 就是一个action creator
+// 3. 创建带有命名空间的 slice (状态切片)
+// 一个 slice 是指一个包含了一部分状态（state）、对应的 reducer 和 action creators (自动生成)的逻辑单元
+// 例如 dispatch(toggleMenu(true)); 这里的 toggleMenu(true) 就是一个action creator 函数，调用后会生成 action 对象
 // 它会自动生成一个动作对象，type 为 namespace/toggleMenu， payload 为 true
 // Redux Toolkit 将 slice 作为组织 Redux 逻辑的推荐方式。
 const globalSlice = createSlice({
-  name: namespace,
+  name: namespace, // 作为 action 对象中 type 属性值的前缀
   initialState,
   reducers: {
     toggleMenu: (state, action) => {
@@ -129,17 +130,31 @@ const globalSlice = createSlice({
     switchFullPage: (state, action) => {
       state.isFullPage = !!action?.payload;
     },
+
+    // 测试载荷预处理功能
+    // addTodo: {
+    //   reducer(state, action) {
+    //     state.push(action.payload);
+    //   },
+    //   prepare(payload) {
+    //     return {
+    //       payload: { title: payload.title, id: nanoid() },
+    //     };
+    //   },
+    // },
   },
   // 处理其他 slice 或全局 action 触发的状态更新。它的作用在于能够在当前 slice 中处理不属于当前 slice 定义的 action
   // 还可以处理异步操作
   extraReducers: () => {},
 });
 
-// 定义一个 selector 函数，作为 useSelector 钩子的参数，用于从 Redux store 中获取特定部分的 state
+// const { actions, reducer } = globalSlice;
+
+// 4. 定义一个 selector 函数，作为 useSelector 钩子的参数，用于从 Redux store 中获取特定部分的 state
 // 相当于 mapStateToProps
 export const selectGlobal = (state: RootState) => state.global;
 
-// 对外暴露动作对象；自动创建的 actions，无需手动书写
+// 5. 对外暴露 action creator 函数；自动创建，无需手动书写
 export const {
   toggleMenu,
   toggleSetting,
@@ -153,7 +168,7 @@ export const {
   openSystemTheme,
 } = globalSlice.actions;
 
-// 默认对外暴露 reducer
+// 6. 默认对外暴露 reducer
 export default globalSlice.reducer;
 
 // 举例说明 extraReducers

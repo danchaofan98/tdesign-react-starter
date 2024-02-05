@@ -4,7 +4,7 @@ import { viteMockServe } from 'vite-plugin-mock';
 import react from '@vitejs/plugin-react';
 import svgr from '@honkhonk/vite-plugin-svgr';
 
-const CWD = process.cwd();
+const CWD = process.cwd(); // 当前工作目录
 
 export default (params) => {
   const { mode } = params;

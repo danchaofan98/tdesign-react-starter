@@ -1,5 +1,5 @@
-// redux 状态管理器
-import { configureStore, combineReducers } from '@reduxjs/toolkit'; // 还是用这个工具包吧，官方推荐的
+// 定义 redux 状态管理器
+import { configureStore } from '@reduxjs/toolkit'; // 还是用这个工具包吧，官方推荐的
 import { TypedUseSelectorHook, useSelector, useDispatch } from 'react-redux';
 
 // 各个模块的 reducer
@@ -9,18 +9,15 @@ import listBase from './list/base';
 import listSelect from './list/select';
 import listCard from './list/card';
 
-// 合并各个模块的 reducer
-const reducer = combineReducers({
-  global,
-  user,
-  listBase,
-  listSelect,
-  listCard,
-});
-
 // 创建全局 store
 const store = configureStore({
-  reducer,
+  reducer: {
+    global,
+    user,
+    listBase,
+    listSelect,
+    listCard,
+  },
 });
 
 // 定义全局 store 的类型
@@ -32,12 +29,12 @@ export type RootState = ReturnType<typeof store.getState>;
 // 定义全局 dispatch 的类型（函数类型）
 export type AppDispatch = typeof store.dispatch;
 
-// 定义一个自定义 hook，相当于对原生的 useDispatch 包装了一下，用于获取 redux 的 dispatch 方法
+// 定义一个自定义 hook，相当于对原生的 useDispatch 包装了一下，用于获取 store.dispatch 方法
 // useDispatch 是 redux 中用于获取 redux 的 dispatch 方法的钩子
 // const dispatch = useAppDispatch(); 这样就可以获取到 redux 的 dispatch 方法了
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 
-// 定义一个自定义 hook，相当于对原生的 useSelector 完成包装，用于获取 redux 的 state 状态
+// 定义一个自定义 hook，相当于对原生的 useSelector 完成包装，用于获取 store.state 状态
 // useSelector 是 redux 中用于获取 state 状态的钩子
 // useSelector 可以在组件中调用，并返回当前组件对应的 state 状态
 // TypedUseSelectorHook<RootState> 是一个 TS 的类型定义

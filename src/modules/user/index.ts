@@ -2,15 +2,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
-const namespace = 'user';
 const TOKEN_NAME = 'tdesign-starter';
 
+// 1. 命名空间
+const namespace = 'user'; // 命名空间
+
+// 2. 初始状态
 const initialState = {
   token: localStorage.getItem(TOKEN_NAME) || 'main_token', // 默认token不走权限
   userInfo: {},
 };
 
 // login 用于创建一个包含了异步逻辑的 action creator
+// createAsyncThunk 的第一个参数是一个字符串，为 action 对象的type 属性值；
+// createAsyncThunk 的第二个参数是一个返回值为 promise 的回调函数，回调函数的第一个参数是 payload， 第二个参数是一个对象，可以从这个对象中解构出 getState 和 dispatch 等方法
 // Record<string, unknown> 是 TypeScript 中的一种类型声明。它表示一个对象，该对象的键（key）是字符串类型，值（value）可以是任何类型，即键是字符串，值可以是未知类型
 export const login = createAsyncThunk(`${namespace}/login`, async (userInfo: Record<string, unknown>) => {
   const mockLogin = async (userInfo: Record<string, unknown>) => {
@@ -65,11 +70,13 @@ export const getUserInfo = createAsyncThunk(`${namespace}/getUserInfo`, async (_
   };
 
   const res = await mockRemoteUserInfo(token);
+  // 通常在这里 dispatch 一个同步的 action，用于修改状态
+  // dispatch(setTodos(response.data));
 
   return res;
 });
 
-// 创建带有命名空间的 slice
+// 3. 创建带有命名空间的 slice
 const userSlice = createSlice({
   name: namespace,
   initialState,
@@ -83,7 +90,7 @@ const userSlice = createSlice({
       state.token = '';
     },
   },
-  // 处理异步操作
+  // 用于接收异步操作的 reducers
   extraReducers: (builder) => {
     builder
       // 根据 Promise 的状态来处理异步操作
@@ -97,11 +104,11 @@ const userSlice = createSlice({
   },
 });
 
-// 定义一个 selector 函数，相当于 mapStateToProps
+// 4. 定义一个 selector 函数，相当于 mapStateToProps
 export const selectUser = (state: RootState) => state.listBase;
 
-// 对外暴露动作对象；自动创建的 actions，无需手动书写
+// 5. 对外暴露 action creator 函数；自动创建，无需手动书写
 export const { logout, remove } = userSlice.actions;
 
-// 默认对外暴露 reducer
+// 6. 默认对外暴露 reducer
 export default userSlice.reducer;
