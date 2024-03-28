@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Row, Card } from 'tdesign-react';
+import { Col, Row, Card, DateRangeValue } from 'tdesign-react';
 import ReactEcharts from 'echarts-for-react';
 import useDynamicChart from 'hooks/useDynamicChart';
 import LastWeekDatePicker from 'components/DatePicker';
@@ -31,7 +31,12 @@ const MiddleChart = () => {
   return (
     <Row gutter={[16, 16]} className={Style.middleChartPanel}>
       <Col xs={12} xl={9}>
-        <Card title='统计数据' subtitle='(万元)' actions={LastWeekDatePicker(onTimeChange)} bordered={false}>
+        <Card
+          title='统计数据'
+          subtitle='(万元)'
+          actions={LastWeekDatePicker(onTimeChange as (value: DateRangeValue) => void)}
+          bordered={false}
+        >
           <ReactEcharts option={dynamicLineChartOption} notMerge={true} lazyUpdate={false} />
         </Card>
       </Col>
